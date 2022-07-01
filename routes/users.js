@@ -57,12 +57,34 @@ router.post('/registor', async (ctx, next) => {
     }
   }
   const result = await query(`insert into user_table set id=?, name=?, age=?, password=?`, [uuid.v1(), name, age, password])
-    ctx.body = {
-      title: 'registor',
-      code: 200,
-      message: '注册成功',
-      data: result
-    }
+  ctx.body = {
+    title: 'registor',
+    code: 200,
+    message: '注册成功',
+    data: result
+  }
+})
+
+router.post('/edit', async (ctx, next) => {
+  const { name, password } = ctx.request.body;
+  const result = await query(`update user_table set password=? where name=?`, [password, name])
+  ctx.body = {
+    title: 'edit',
+    code: 200,
+    message: '修改成功',
+    data: result
+  }
+})
+
+router.post('/delete', async (ctx, next) => {
+  const { name } = ctx.request.body;
+  const result = await query(`delete from user_table where name=?`, [name])
+  ctx.body = {
+    title: 'delete',
+    code: 200,
+    message: '删除成功',
+    data: result
+  }
 })
 
 router.post('/uploadFile', async (ctx, next) => {
